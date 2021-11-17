@@ -1,10 +1,11 @@
-const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { ModuleFederationPlugin } = require("webpack").container;
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const deps = require("./package.json").dependencies;
 
-const port = 8080;
+const port = 8081;
 
 module.exports = {
-  mode: 'development',
+  mode: "development",
   output: {
     publicPath: `http://localhost:${port}/`,
   },
@@ -15,13 +16,29 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.svg$/,
+        loader: "file-loader",
+      },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: "file-loader",
+          },
+        ],
+      },
+      {
         test: /\.m?js$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
-            presets: ['@babel/preset-react', '@babel/preset-env'],
-            plugins: ['@babel/plugin-transform-runtime'],
+            presets: ["@babel/preset-react", "@babel/preset-env"],
+            plugins: ["@babel/plugin-transform-runtime"],
           },
         },
       },
@@ -29,13 +46,27 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'host',
+      name: "host",
       remotes: {
-        subA: 'sub_a@http://localhost:8081/remoteEntry.js',
+        subA: "sub_a@http://localhost:8082/remoteEntry.js",
+        users: "users@http://localhost:8080/remoteEntry.js",
       },
+      shared: [
+        {
+          ...deps,
+          react: {
+            singleton: true,
+            requiredVersion: deps.react,
+          },
+          "react-dom": {
+            singleton: true,
+            requiredVersion: deps["react-dom"],
+          },
+        },
+      ],
     }),
     new HtmlWebpackPlugin({
-      template: './public/index.html',
+      template: "./public/index.html",
     }),
   ],
 };

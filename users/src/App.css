@@ -1,0 +1,15 @@
+@font-face {
+  font-family: "MontaguSlab";
+  src: url("../public/fonts/MontaguSlab_120pt-Medium.ttf") format("wof2");
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: MontaguSlab;
+}
+
+@import "bootstrap/dist/css/bootstrap.min.css";
