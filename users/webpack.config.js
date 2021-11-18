@@ -9,15 +9,16 @@ module.exports = {
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
-    publicPath: `http://localhost:8080/`
-
+    publicPath: `http://localhost:8080/`,
   },
   devServer: {
-    static: path.join(__dirname, "dist"),
     port: 8080,
     historyApiFallback: true,
+    // static: path.join(__dirname, "dist"),
   },
-
+  optimization: {
+      splitChunks:false
+  },
   module: {
     rules: [
       {
@@ -72,10 +73,6 @@ module.exports = {
           "react-dom": {
             singleton: true,
             requiredVersion: deps["react-dom"],
-          },
-          "react-router-dom": {
-            singleton: true,
-            requiredVersion: deps["react-router-dom"],
           },
         },
       ],
