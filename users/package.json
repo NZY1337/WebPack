@@ -22,7 +22,8 @@
     "start": "webpack serve --config webpack.config.js --open",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint ."
   },
   "eslintConfig": {
     "extends": [
@@ -47,6 +48,7 @@
     "babel-loader": "^8.2.3",
     "bundle-loader": "^0.5.6",
     "css-loader": "^6.5.1",
+    "eslint": "^7.32.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
     "sass-loader": "^12.3.0",
