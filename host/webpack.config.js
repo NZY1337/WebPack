@@ -9,7 +9,7 @@ module.exports = {
   mode: "development", // prevents the file to be minified
   entry: "./src/index.js",
   output: {
-    filename: "main.js",
+    filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
     publicPath: `http://localhost:${port}/`
   },

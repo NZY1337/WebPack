@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
 const deps = require("./package.json").dependencies;
 const { ModuleFederationPlugin } = require("webpack").container;
 
@@ -8,6 +9,8 @@ module.exports = {
   mode: "development",
   output: {
     publicPath: `http://localhost:${port}/`,
+    filename: "[name].js",
+    path: path.resolve(__dirname, "dist"),
   },
   devServer: {
     port: port,
