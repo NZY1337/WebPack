@@ -1,1 +1,1 @@
-import("./main-index.js");
+import("./bootstrap.js");

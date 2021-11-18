@@ -9,14 +9,20 @@ module.exports = {
   output: {
     filename: "main.js",
     path: path.resolve(__dirname, "dist"),
+    publicPath: `http://localhost:8080/`
+
   },
   devServer: {
     static: path.join(__dirname, "dist"),
     port: 8080,
-    // allowedHosts: true,
+    historyApiFallback: true,
   },
   module: {
     rules: [
+      {
+        test: /\.svg$/,
+        loader: "file-loader",
+      },
       {
         test: /\.css$/,
         use: [
@@ -52,7 +58,7 @@ module.exports = {
       name: "users",
       filename: "remoteEntry.js",
       exposes: {
-        "./App": "./src/App",
+        "./Users": "./src/users/users.js",
         "./SingleUser": "./src/users/single-user.js",
       },
       shared: [
@@ -66,8 +72,23 @@ module.exports = {
             singleton: true,
             requiredVersion: deps["react-dom"],
           },
+          "react-router-dom": {
+            singleton: true,
+            requiredVersion: deps["react-router-dom"],
+          },
         },
       ],
     }),
   ],
 };
+
+
+/*
+   This section is for everyone who ran into this problem in development using webpack-dev-server..
+   Just as above, what we need to do it tell Webpack Dev Server to redirect all server requests to /index.html. T
+   There are just two properties in your webpack config you need to set to do this, publicPath and historyApiFallback.
+
+    - publicPath: '/' - allows you to specify the base path for all the assets within your application.
+    - historyAPIFallback:boolean - will redirect 404s to /index.html.
+
+* */

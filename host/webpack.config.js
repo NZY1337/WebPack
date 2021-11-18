@@ -1,18 +1,23 @@
 const { ModuleFederationPlugin } = require("webpack").container;
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
 const deps = require("./package.json").dependencies;
 
 const port = 8081;
 
 module.exports = {
-  mode: "development",
+  mode: "development", // prevents the file to be minified
+  entry: "./src/index.js",
   output: {
-    publicPath: `http://localhost:${port}/`,
+    filename: "main.js",
+    path: path.resolve(__dirname, "dist"),
+    publicPath: `http://localhost:${port}/`
   },
   devServer: {
     port: port,
     historyApiFallback: true,
   },
+
   module: {
     rules: [
       {

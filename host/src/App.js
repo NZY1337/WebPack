@@ -1,23 +1,26 @@
-import React, { lazy, Suspense } from "react";
-const SubAAppLazy = lazy(() => import("subA/App"));
-
-import img from "../public/images/pexels-photo-9800866.jpeg";
+import React, {lazy, Suspense} from "react";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Navigation from "./components/navigation/navigation";
+import Home from '../src/components/home/home';
+const FooterLazy = lazy(() => import("subA/Footer"));
+const UsersLazy = lazy(() => import('users/Users'));
+const SingleUserLazy = lazy(() => import('users/SingleUser'));
 
 const App = () => {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <div className="container mt-5">
-        <div className="row">
-          <div className="col-lg-12">
-            <h3>User's Host App:</h3>
-            <img className=" w-100" style={{ height: "500px", objectFit: "cover" }} src={img} />
-          </div>
-        </div>
-      </div>
-
-      <SubAAppLazy />
-    </Suspense>
-  );
-};
+    return (
+        <Suspense fallback="Loading...">
+            <Router>
+                <Navigation />
+                <Switch>
+                    <Route path="/" exact component={Home} />
+                    <Route path="/users" exact component={UsersLazy} />
+                    <Route path="/users/:id"  component={SingleUserLazy} />
+                </Switch>
+                <FooterLazy/>
+            </Router>
+        </Suspense>
+    );
+}
 
 export default App;

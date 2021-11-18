@@ -37,7 +37,7 @@ module.exports = {
       name: "sub_a",
       filename: "remoteEntry.js",
       exposes: {
-        "./App": "./src/App.js",
+        "./Footer": "./src/components/footer/footer.js",
       },
       shared: [
         {
@@ -45,6 +45,7 @@ module.exports = {
           react: {
             singleton: true,
             requiredVersion: deps.react,
+
           },
           "react-dom": {
             singleton: true,
