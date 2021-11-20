@@ -1,7 +1,6 @@
 const { ModuleFederationPlugin } = require("webpack").container;
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
-const deps = require("./package.json").dependencies;
 
 const port = 8081;
 
@@ -11,13 +10,14 @@ module.exports = {
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
-    publicPath: `http://localhost:${port}/`
+    publicPath: `http://localhost:${port}/`,
+    chunkFilename: '[name].js',
   },
   devServer: {
     port: port,
     historyApiFallback: true,
+    // static: path.join(__dirname, "dist"),
   },
-
   module: {
     rules: [
       {
@@ -53,22 +53,19 @@ module.exports = {
     new ModuleFederationPlugin({
       name: "host",
       remotes: {
-        subA: "sub_a@http://localhost:8082/remoteEntry.js",
+        footer: "footer@http://localhost:8082/remoteEntry.js",
         users: "users@http://localhost:8080/remoteEntry.js",
       },
-      shared: [
-        {
-          ...deps,
-          react: {
-            singleton: true,
-            requiredVersion: deps.react,
-          },
-          "react-dom": {
-            singleton: true,
-            requiredVersion: deps["react-dom"],
-          },
+      shared: {
+        react: {
+          singleton: true,
+          requiredVersion: require('./package.json').dependencies.react,
         },
-      ],
+        "react-dom": {
+          singleton: true,
+          requiredVersion: require('./package.json').dependencies['react-dom'],
+        },
+      },
     }),
     new HtmlWebpackPlugin({
       template: "./public/index.html",

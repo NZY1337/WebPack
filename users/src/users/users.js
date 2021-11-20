@@ -1,6 +1,8 @@
 import React,  { useEffect, useState } from "react";
 import axios from "axios";
 import UsersList from "./users-list";
+import faker from 'faker';
+
 
 const Users = () => {
     const [users, setUsers] = useState([]);
@@ -10,24 +12,20 @@ const Users = () => {
         axios.get("https://jsonplaceholder.typicode.com/users").then((users) => {
             fetchUsers && setUsers(users.data);
         });
-
         return () => (fetchUsers = false);
     }, []);
 
     return (
-        <div className="container">
-            <div className="row  mt-5 ">
-                <div className="col-lg">
-                    <h4 className="font-weight-bold mb-2">
-                        Users' List:{" "}
-                            <span style={{ fontSize: "initial" }}>
-                                <i>subcomponent</i>
-                            </span>
-                        </h4>
-                    {users.length > 0 && <UsersList users={users} />}
-                </div>
+        <div className={'w-10 mx-auto'}>
+            <p>you have ${faker.random.number()} items in your cart</p>
+            <h4>Users List:{" "}
+                <span style={{ fontSize: "initial" }}><i>subcomponent</i></span>
+            </h4>
+
+            <div className="grid">
+                {users.length > 0 && <UsersList users={users} />}
             </div>
-        </div>
+         </div>
 
     )
 }

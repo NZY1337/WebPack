@@ -1,20 +1,21 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
-const deps = require("./package.json").dependencies;
 const { ModuleFederationPlugin } = require("webpack").container;
-
 const port = 8082;
 
 module.exports = {
   mode: "development",
+  entry: "./src/index.js",
   output: {
     publicPath: `http://localhost:${port}/`,
     filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
+    chunkFilename: '[name].js', //?
   },
   devServer: {
     port: port,
     historyApiFallback: true,
+    // static: path.join(__dirname, "dist"),
   },
   module: {
     rules: [
@@ -37,25 +38,24 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: "sub_a",
+      name: "footer",
       filename: "remoteEntry.js",
       exposes: {
         "./Footer": "./src/components/footer/footer.js",
       },
-      shared: [
-        {
-          ...deps,
-          react: {
-            singleton: true,
-            requiredVersion: deps.react,
-
-          },
-          "react-dom": {
-            singleton: true,
-            requiredVersion: deps["react-dom"],
-          },
+      shared: {
+        react: {
+          singleton: true,
+          requiredVersion: require('./package.json').dependencies.react,
         },
-      ],
+        "react-dom": {
+          singleton: true,
+          requiredVersion: require('./package.json').dependencies['react-dom'],
+        },
+        "faker": {
+          requiredVersion: require('./package.json').dependencies['faker']
+        }
+      },
     }),
     new HtmlWebpackPlugin({
       template: "./public/index.html",

@@ -1,7 +1,6 @@
 const path = require("path"); //
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { ModuleFederationPlugin } = require("webpack").container;
-const deps = require("./package.json").dependencies;
 
 module.exports = {
   mode: "development", // prevents the file to be minified
@@ -10,14 +9,12 @@ module.exports = {
     filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
     publicPath: `http://localhost:8080/`,
+    chunkFilename: '[name].js',
   },
   devServer: {
     port: 8080,
     historyApiFallback: true,
     // static: path.join(__dirname, "dist"),
-  },
-  optimization: {
-      splitChunks:false
   },
   module: {
     rules: [
@@ -62,31 +59,21 @@ module.exports = {
       exposes: {
         "./Users": "./src/users/users.js",
         "./SingleUser": "./src/users/single-user.js",
+        "./App": "./src/App.js"
       },
-      shared: [
-        {
-          ...deps,
-          react: {
-            singleton: true,
-            requiredVersion: deps.react,
-          },
-          "react-dom": {
-            singleton: true,
-            requiredVersion: deps["react-dom"],
-          },
+      shared: {
+        react: {
+          singleton: true,
+          requiredVersion: require('./package.json').dependencies.react,
         },
-      ],
+        "react-dom": {
+          singleton: true,
+          requiredVersion: require('./package.json').dependencies['react-dom'],
+        },
+        "faker": {
+          requiredVersion: require('./package.json').dependencies['faker']
+        }
+      },
     }),
   ],
 };
-
-
-/*
-   This section is for everyone who ran into this problem in development using webpack-dev-server..
-   Just as above, what we need to do it tell Webpack Dev Server to redirect all server requests to /index.html. T
-   There are just two properties in your webpack config you need to set to do this, publicPath and historyApiFallback.
-
-    - publicPath: '/' - allows you to specify the base path for all the assets within your application.
-    - historyAPIFallback:boolean - will redirect 404s to /index.html.
-
-* */

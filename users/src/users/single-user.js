@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import {useParams} from "react-router-dom";
 import axios from 'axios'
+import { Card } from 'primereact/card';
 
-const SingleUser = () => {
+const SingleUser = ({match}) => {
     const [user, setUser] = useState(null);
-    const { id } = useParams();
+    const {id} = match.params;
 
     useEffect(() => {
+
         let fetchUser = true;
         axios.get(`https://jsonplaceholder.typicode.com/users/${id}`).then((users) => {
             fetchUser && setUser(users.data);
@@ -16,29 +17,17 @@ const SingleUser = () => {
     }, [id]);
 
   return (
-    <div className="container mt-5" key={id}>
-      <div className="row">
-        <div className="col-12">
-            <h4>User Page:</h4>
-          {user && (
-            <div>
-              <span>
-                Name: <h6>{user.name}</h6>
-              </span>
-              <span>
-                Phone: <p>{user.phone}</p>
-              </span>
-              <span>
-                WebSite: <p>{ user.website}</p>
-              </span>
-              <span>
-                Email: <p>{ user.email}</p>
-              </span>
-            </div>
-          )}
+
+        <div className={'w-11 mx-auto mt-5'}>
+            {user && <Card  title={user.name} subTitle={user.email} className={'col-3'}>
+                <p className="p-m-0" style={{lineHeight: '1.5'}}>
+                    Email: <span>{ user.email}</span>
+                    WebSite: <span>{ user.website}</span>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
+                    quisquam repellat.
+                </p>
+            </Card>}
         </div>
-      </div>
-    </div>
   );
 };
 

@@ -1,8 +1,61 @@
+[comment]: <> (importing dependencies ...)
 
-[comment]: <> (incarca bootstrap global - deps)
+const deps = require("./package.json").dependencies;
 
-[comment]: <> (configurat esLint;)
+shared: [
+    {
+    ...deps,
+    react: {
+        singleton: true,
+        requiredVersion: deps.react,
+    },
+    "react-dom": {
+        singleton: true,
+        requiredVersion: deps["react-dom"],
+    },
+    "primeflex": {
+        singleton:true,
+        requiredVersion:deps["primeflex"]
+    },
+    "primereact": {
+        singleton:true,
+        requiredVersion:deps["primereact"]
+    },
+    "primeicons": {
+        singleton:true,
+        requiredVersion:deps["primeicons"]
+    },
+    },
+],
 
-[comment]: <> (trimis curs nodeJs;)
+[comment]: <> (Shared Module is not available for eager consumption) -> bootstrap.js file - error fix;
 
-[comment]: <> (#module federatin shared dependencies)
+- publicPath: '/' - allows you to specify the base path for all the assets within your application.
+- historyAPIFallback:boolean - will redirect 404s to /index.html.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
