@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import {useParams} from "react-router-dom";
 import axios from 'axios'
 import { Card } from 'primereact/card';
 
-const SingleUser = ({match}) => {
+const SingleUser = () => {
     const [user, setUser] = useState(null);
-    const {id} = match.params;
+    const { id } = useParams();
 
     useEffect(() => {
 
