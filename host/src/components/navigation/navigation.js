@@ -6,13 +6,13 @@ import logo from "../../../public/images/cabify-vector-logo.svg";
 function Navigation() {
   const [links, setLinks] = useState([
     {
-      name: "Home",
+      name: "Users",
       url: "/",
       id: 0,
     },
     {
-      name: "Users",
-      url: "/users",
+      name: "Home",
+      url: "/home",
       id: 1,
     },
     // {

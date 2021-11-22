@@ -9,7 +9,7 @@ const UsersList = ({ users }) => {
 
   const footer = (user) => {
       return (
-        <a style={{textDecoration:'none'}} href={`/users/${user.id}`}>
+        <a style={{textDecoration:'none'}} href={`/${user.id}`}>
             <Button label="Go To" icon="pi pi-check" id={user.id}/>
         </a>
       )

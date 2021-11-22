@@ -21,9 +21,9 @@ const App = () => {
             <Router>
                 <Navigation />
                 <Switch>
-                    <Route path="/" exact component={Home} />
-                    <Route path="/users" exact component={UsersLazy} />
-                    <Route path="/users/:id" component={SingleUserLazy} />
+                    <Route path="/home" component={Home} />
+                    <Route path="/" exact component={UsersLazy} />
+                    <Route path="/:id" component={SingleUserLazy} />
                 </Switch>
                 <FooterLazy/>
             </Router>
